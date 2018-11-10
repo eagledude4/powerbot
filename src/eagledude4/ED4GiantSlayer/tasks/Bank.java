@@ -9,7 +9,6 @@ import org.powerbot.script.rt4.ItemQuery;
 import org.powerbot.script.rt4.Menu;
 
 import eagledude4.ED4GiantSlayer.Task;
-import eagledude4.ED4Utils.Utils;
 import eagledude4.ED4GiantSlayer.Main;
 
 import java.awt.Point;
@@ -21,8 +20,6 @@ import javax.swing.JOptionPane;
 
 public class Bank extends Task {
 	Main main;
-	private final Utils utils = new Utils(ctx);
-	
 	Pattern pattern = Pattern.compile("(Lobster)|(Swordfood)|(Salmon)|(Trout)");
     
 	public Bank(Main main, ClientContext ctx) {
@@ -31,7 +28,7 @@ public class Bank extends Task {
     }
 	
 	public void Withdraw() {
-		utils.updateStatus(main.Status,"Withdrawing Food");
+		main.updateStatus("Withdrawing Food");
 		
 		if (ctx.bank.currentTab() != 8) {
 			ctx.bank.currentTab(8);

@@ -44,7 +44,7 @@ public class Main extends PollingScript<ClientContext> {
     public int startLevel;
     public int GiantsToKill;
     
-    public static String Status = "Initializing";
+    public String Status = "Initializing";
 	public String combatOptions[] = {"Attack", "Strength", "Defense"};
 	public String giantOptions[] = {"Hill Giants", "Moss Giants"};
 	
@@ -145,6 +145,16 @@ public class Main extends PollingScript<ClientContext> {
     	}
     }
     
+    public void updateStatus(String newStatus) {
+    	//System.out.println("old status: "+oldStatus);
+    	//System.out.println("new status: "+newStatus);
+    	
+    	if (!Status.equalsIgnoreCase(newStatus)) {
+    		Status = newStatus;
+    		System.out.println(""+newStatus+" - "+utils.Time(getRuntime()));
+    	};
+    }
+    
     @Override
     public void start(){
     	startTime = System.currentTimeMillis();
@@ -193,9 +203,22 @@ public class Main extends PollingScript<ClientContext> {
         
         hidePaint = false;
 		String[] listenString = {""};
-		new DrawPaint("ED4GiantSlayer", "Hill_giant.png", chosenSkill, skillString, startLevel, startExp, startTime, 0, "", "", listenString);
-    }
 
+		String iconURL = "";
+		String iconIMG = "";
+		if (giantType.equals("Hill Giants")) {
+			iconURL = "http://i.imgur.com/RR57RaU.png";
+			iconIMG = "Hill_Giant.png";
+	    } else if (giantType.equals("Moss Giants")) {
+	    	iconURL = "http://i.imgur.com/n42rOMD.png";
+	    	iconIMG = "Moss_Giant.png";
+	    } else {
+	        ctx.controller.stop();
+	    }
+		
+		new DrawPaint("ED4GiantSlayer", iconURL, iconIMG, chosenSkill, skillString, startLevel, startExp, startTime, 0, "", "", listenString);
+    }
+    
     @Override
     public void poll() {
     	if(!ctx.movement.running() && ctx.movement.energyLevel()> Random.nextInt(35,55)){

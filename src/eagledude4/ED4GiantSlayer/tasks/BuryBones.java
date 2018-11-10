@@ -11,12 +11,9 @@ import org.powerbot.script.rt4.Item;
 
 import eagledude4.ED4GiantSlayer.Main;
 import eagledude4.ED4GiantSlayer.Task;
-import eagledude4.ED4Utils.Utils;
 
 public class BuryBones extends Task {
 	Main main;
-	private final Utils utils = new Utils(ctx);
-	
 	Pattern pattern = Pattern.compile("(.*bones)");
 	
 	public BuryBones(Main main, ClientContext ctx) {
@@ -33,7 +30,7 @@ public class BuryBones extends Task {
 
     @Override
     public void execute() {
-    	utils.updateStatus(main.Status,"Burying Bones");
+    	main.updateStatus("Burying Bones");
 
     	for(Item bones: ctx.inventory.select().name(pattern)){
             if(ctx.controller.isStopping()){

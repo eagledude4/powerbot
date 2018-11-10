@@ -6,25 +6,17 @@ import org.powerbot.script.PaintListener;
 import org.powerbot.script.PollingScript;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Component;
-//import org.powerbot.script.rt4.Constants;
-//import org.powerbot.script.rt4.Skills;
 
 import eagledude4.ED4Utils.Utils;
-
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
-import java.text.DecimalFormat;
-
-import javax.imageio.ImageIO;
 
 
 public class DrawPaint extends PollingScript<ClientContext> implements MouseListener, MessageListener, PaintListener {
 	private final Utils utils = new Utils(ctx);
 	
-	//private String className;
 	private String customString1;
 	private String customString2;
 	private String skillString;
@@ -49,7 +41,7 @@ public class DrawPaint extends PollingScript<ClientContext> implements MouseList
     public void poll() {
     }
     
-    public DrawPaint(String className, String iconName, int skill, String skillString, int startLevel, int startExp, long startTime, double expYield, String customString1, String customString2, String[] listenString) {
+    public DrawPaint(String className, String iconURL, String iconIMG, int skill, String skillString, int startLevel, int startExp, long startTime, double expYield, String customString1, String customString2, String[] listenString) {
     	ctx.dispatcher.add(this);
     
     	//this.className = className;
@@ -64,9 +56,13 @@ public class DrawPaint extends PollingScript<ClientContext> implements MouseList
     	this.customString2 = customString2;
     	this.listenString = listenString;
     	
-    	this.bg = utils.getImage("\\img\\bg.png");
-        this.cursor = utils.getImage("\\img\\cursor.png");
-        this.icon = utils.getImage("\\img\\icons\\"+iconName);
+    	//this.bg = utils.getImageLocal("\\img\\bg.png");
+        //this.cursor = utils.getImageLocal("\\img\\cursor.png");
+        //this.icon = utils.getImageLocal("\\img\\icons\\"+iconName);
+        
+        this.bg = utils.getImage("http://i.imgur.com/4Yh5mER.png", "bg.png");
+        this.cursor = utils.getImage("http://i.imgur.com/SmrJgUD.png", "cursor.png");
+        this.icon = utils.getImage(iconURL, iconIMG);
     }
     
     @Override

@@ -8,15 +8,14 @@ import org.powerbot.script.rt4.Npc;
 
 import eagledude4.ED4GiantSlayer.Main;
 import eagledude4.ED4GiantSlayer.Task;
+
 import eagledude4.ED4Utils.MouseCamera;
-import eagledude4.ED4Utils.Utils;
 
 import java.util.concurrent.Callable;
 import java.util.regex.Pattern;
 
 public class Fight extends Task {
 	Main main;
-	private final Utils utils = new Utils(ctx);
 	public Pattern pattern = Pattern.compile("(Lobster)|(Swordfish)|(Salmon)|(Trout)");
 	private final MouseCamera mcam = new MouseCamera(ctx);
 	
@@ -65,7 +64,7 @@ public class Fight extends Task {
 	            }
 			 }, 200, 10);
 			 
-			 utils.updateStatus(main.Status,"Fighting Giant");
+			 main.updateStatus("Fighting Giant");
 		 }
     }
 }

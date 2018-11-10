@@ -10,7 +10,10 @@ import org.powerbot.script.rt4.Component;
 import org.powerbot.script.rt4.Menu;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.concurrent.Callable;
 
@@ -61,7 +64,7 @@ public class Utils extends PollingScript<ClientContext> {
 
 		Component goalBox = ctx.widgets.widget(137).component(32).component(1);
 		Component goalCheckbox = ctx.widgets.widget(137).component(32).component(0);
-		Component startPointSet = ctx.widgets.widget(137).component(38);
+		//Component startPointSet = ctx.widgets.widget(137).component(38);
 		Component endPointSet = ctx.widgets.widget(137).component(42);
 		Component saveButton = ctx.widgets.widget(137).component(45).component(9);
 		Component closeButton = ctx.widgets.widget(137).component(2).component(11);
@@ -96,8 +99,8 @@ public class Utils extends PollingScript<ClientContext> {
 		            return goalCheckbox.textureId() == 699;
 		        }
 		    }, 1000, 5);
-			startPointSet.interact("Set to current XP");
-			Condition.sleep(Random.nextInt(500, 1000));
+			//startPointSet.interact("Set to current XP");
+			//Condition.sleep(Random.nextInt(500, 1000));
 			endPointSet.click(false);
 			ctx.menu.click(Menu.filter("Set to level"));
 			Condition.wait(new Callable<Boolean>(){
@@ -106,15 +109,17 @@ public class Utils extends PollingScript<ClientContext> {
 	                return chatBox.visible();
 	            }
 	        }, 1000, 5);
-			ctx.input.send(levelGoal);
-			Condition.sleep(Random.nextInt(500, 1000));
-			ctx.input.send("{VK_ENTER down}");
-			Condition.wait(new Callable<Boolean>(){
-	            @Override
-	            public Boolean call() throws Exception {
-	                return !chatBox.visible();
-	            }
-	        }, 1000, 5);
+			if (chatBox.visible()) {
+				ctx.input.send(levelGoal);
+				Condition.sleep(Random.nextInt(500, 1000));
+				ctx.input.send("{VK_ENTER down}");
+				Condition.wait(new Callable<Boolean>(){
+		            @Override
+		            public Boolean call() throws Exception {
+		                return !chatBox.visible();
+		            }
+		        }, 1000, 5);
+			}
 			saveButton.click();
 			Condition.sleep(Random.nextInt(500, 1000));
 			closeButton.click();
@@ -123,15 +128,7 @@ public class Utils extends PollingScript<ClientContext> {
 		}
     }
     
-    public String updateStatus(String oldStatus, String newStatus) {
-    	if (!oldStatus.equalsIgnoreCase(newStatus)) {
-    		System.out.println(newStatus);
-    		newStatus = ""+newStatus+" - "+Time(getRuntime());
-    	};
-    	return newStatus;
-    }
-    
-    public Image getImage(String name) {
+    public Image getImageLocal(String name) {
         File file = new File(getStorageDirectory()+name);
         try {
             if (!file.exists()) { //dev only!
@@ -147,9 +144,27 @@ public class Utils extends PollingScript<ClientContext> {
         }
         return null;
     }
+    
+    public BufferedImage getImage(String url, String imageName) {
+		final File downloadedFile = new File(getStorageDirectory(), imageName);
+		try {
+			if (!downloadedFile.exists()) {
+				final BufferedImage img = downloadImage(url);
+				if (img != null && img.getWidth() > 1 && img.getHeight() > 1) {
+					ImageIO.write((BufferedImage)img, "png", downloadedFile);
+					return img;
+				}
+			} else {
+				return ImageIO.read(downloadedFile);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
    
   
-  //Convert long type millisecond timer into a String showing hh:mm:ss, helper class.
+    //Convert long type millisecond timer into a String showing hh:mm:ss, helper class.
     public String Time(long i) {
  	   DecimalFormat nf = new DecimalFormat("00");
  	   long millis = i;

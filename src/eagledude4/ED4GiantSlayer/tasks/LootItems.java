@@ -11,12 +11,10 @@ import org.powerbot.script.rt4.GroundItem;
 import eagledude4.ED4GiantSlayer.Main;
 import eagledude4.ED4GiantSlayer.Task;
 import eagledude4.ED4Utils.MouseCamera;
-import eagledude4.ED4Utils.Utils;
 
 public class LootItems extends Task {
 	Main main;
 
-	private final Utils utils = new Utils(ctx);
 	private final MouseCamera mcam = new MouseCamera(ctx);
 	
 	Pattern pattern = Pattern.compile("(.*bones)|(.*rune)|(.*talisman)|(Coins)");
@@ -54,7 +52,7 @@ public class LootItems extends Task {
         }).nearest().poll();
     	
     	if ((groundLoot.name().equals("Coins")) || (!groundLoot.name().equals("Coins")) && ctx.inventory.select().count() < 28) {
-	    	utils.updateStatus(main.Status,"Getting "+groundLoot.stackSize()+" "+groundLoot.name());
+    		main.updateStatus("Getting "+groundLoot.stackSize()+" "+groundLoot.name());
 			
 			mcam.turnTo(groundLoot);
 			

@@ -10,13 +10,12 @@ import org.powerbot.script.rt4.ClientContext;
 
 import eagledude4.ED4GiantSlayer.Main;
 import eagledude4.ED4GiantSlayer.Task;
-import eagledude4.ED4Utils.Utils;
+
 import Walker.Walker;
 
 public class Walk extends Task {
 	Main main;
 	
-	private final Utils utils = new Utils(ctx);
 	private final Walker walker = new Walker(ctx);
 	
 	Pattern pattern = Pattern.compile("(Lobster)|(Sword)|(Salmon)|(Trout)");
@@ -54,7 +53,7 @@ public class Walk extends Task {
         }
 
         if (needToBank) {
-        	utils.updateStatus(main.Status,"Getting Food");
+        	main.updateStatus("Getting Food");
         	
     		if (walker.walkPathReverse(pathToGiants)) {
     			Condition.wait(new Callable<Boolean>(){
@@ -65,7 +64,7 @@ public class Walk extends Task {
     	        }, 200, 10);
     		}
         } else if (needToReturn) {
-        	utils.updateStatus(main.Status,"Returning to Giants");
+        	main.updateStatus("Returning to Giants");
         	
     		if (walker.walkPath(pathToGiants)) {
     			Condition.wait(new Callable<Boolean>(){

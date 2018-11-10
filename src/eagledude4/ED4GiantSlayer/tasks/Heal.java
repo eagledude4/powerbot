@@ -9,11 +9,9 @@ import org.powerbot.script.rt4.Item;
 
 import eagledude4.ED4GiantSlayer.Main;
 import eagledude4.ED4GiantSlayer.Task;
-import eagledude4.ED4Utils.Utils;
 
 public class Heal extends Task {
 	Main main;
-	private final Utils utils = new Utils(ctx);
 	Pattern pattern = Pattern.compile("(Trout)|(Salmon)|(Lobster)|(Swordfish)");
 	
 	public Heal(Main main, ClientContext ctx) {
@@ -28,7 +26,7 @@ public class Heal extends Task {
 
     @Override
     public void execute() {
-    	utils.updateStatus(main.Status,"Fighting Giant");
+    	main.updateStatus("Fighting Giant");
 
     	for(Item log: ctx.inventory.select().name(pattern)){
             if(ctx.controller.isStopping()){
