@@ -29,7 +29,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-@Script.Manifest(name="ED4 Giant Slayer", description="Trains Combat by killig Giants in Falador (OSRS)", properties="client=4; author=Eagledude4; topic=999;")
+@Script.Manifest(name="ED4 Giant Slayer", description="Trains Combat by killig Hill/Moss Giants (OSRS)", properties="client=4; author=Eagledude4; topic=1348615;")
 
 public class Main extends PollingScript<ClientContext> {
 	private final Utils utils = new Utils(ctx);
@@ -101,9 +101,6 @@ public class Main extends PollingScript<ClientContext> {
     			component.interact("Chop");
     			Condition.sleep(Random.nextInt(500, 1000));
     		}
-    		
-    		String levelGoal = "45"; //make this a JSON param later
-        	utils.setGoal("Attack",levelGoal);
         } else if(fightMode.equals("Strength")){
         	String timeStamp = new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
         	System.out.println("Training Strength "+timeStamp);
@@ -121,9 +118,6 @@ public class Main extends PollingScript<ClientContext> {
         		component.interact("Slash");
         		Condition.sleep(Random.nextInt(500, 1000));
         	}
-        	
-        	String levelGoal = "45"; //make this a JSON param later
-        	utils.setGoal("Strength",levelGoal);
         } else if(fightMode.equals("Defense")){
         	String timeStamp = new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
         	System.out.println("Training Defense "+timeStamp);
@@ -141,13 +135,16 @@ public class Main extends PollingScript<ClientContext> {
         		component.interact("Block");
         		Condition.sleep(Random.nextInt(500, 1000));
         	}
-        	String levelGoal = "45"; //make this a JSON param later
-        	utils.setGoal("Defense",levelGoal);
         } else {
             ctx.controller.stop();
         }
+    	
+    	String levelGoal = ""+(String)JOptionPane.showInputDialog(null, "Level Goal", "Giant Slayer", JTextField.CENTER);
+    	if (!levelGoal.equals("")) {
+    		utils.setGoal(fightMode,levelGoal);
+    	}
     }
-
+    
     @Override
     public void start(){
     	startTime = System.currentTimeMillis();
